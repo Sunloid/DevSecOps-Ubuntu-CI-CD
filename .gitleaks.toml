@@ -1,0 +1,14 @@
+# gitleaks configuration. Default rule set + a deliberately tiny allowlist.
+title = "securepipe gitleaks config"
+
+[extend]
+useDefault = true
+
+# Prefer a fingerprint in .gitleaksignore (one line per accepted finding, with a comment
+# explaining why) over widening this allowlist.
+[[allowlists]]
+description = "Placeholder files that contain only empty variable names, and test fixtures."
+paths = [
+  '''(^|/)\.env\.example$''',
+  '''^tests/fixtures/''',
+]

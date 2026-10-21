@@ -1,0 +1,25 @@
+# SOLUTION for the compose exercise (V28). Run from the repo root:
+#   JWT_SECRET=$(openssl rand -hex 32) docker compose -f solutions/docker-compose.yml up -d
+services:
+  app:
+    image: practice-server:fixed
+    init: true
+    restart: unless-stopped
+    read_only: true                    # immutable root filesystem
+    user: "65532:65532"
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 200
+    mem_limit: 512m
+    tmpfs:
+      - /tmp:size=16m,noexec,nosuid,nodev
+    environment:
+      NODE_ENV: production
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET (openssl rand -hex 32)}   # from the environment, never the file
+    volumes:
+      - notes-data:/app/data           # the only writable path
+    ports:
+      - "127.0.0.1:3000:3000"          # loopback only: Docker-published ports BYPASS ufw
+volumes:
+  notes-data:

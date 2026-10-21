@@ -1,0 +1,25 @@
+{
+  "name": "practice-server",
+  "version": "0.9.0",
+  "description": "Practice target: an intentionally vulnerable notes API. Never deploy.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "0.21.0",
+    "better-sqlite3": "12.11.1",
+    "cors": "2.8.5",
+    "ejs": "2.7.1",
+    "express": "4.16.0",
+    "jsonwebtoken": "8.5.1",
+    "lodash": "4.17.11",
+    "minimist": "1.2.0",
+    "node-serialize": "0.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.4"
+  }
+}

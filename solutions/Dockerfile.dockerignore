@@ -1,0 +1,13 @@
+.git
+.github
+node_modules
+.env*
+id_deploy
+infra
+solutions
+server
+scripts
+data
+*.md
+docker-compose.yml
+Dockerfile

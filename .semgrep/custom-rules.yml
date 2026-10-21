@@ -1,0 +1,299 @@
+# Org-specific Semgrep rules. They fill gaps the community packs leave open
+# (found while tuning against baseline/) - see docs/TUNING.md.
+#   * better-sqlite3 / node-serialize / unpinned JWT verify / SSRF sinks are not covered upstream
+#   * upstream docker-compose rules only match files that still have a top-level `version:` key
+rules:
+  - id: securepipe.sqli-better-sqlite3
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      User input reaches a SQL string passed to better-sqlite3 (prepare/exec).
+      Use a constant SQL string with ? placeholders and bind values instead.
+    metadata:
+      category: security
+      cwe: ["CWE-89: SQL Injection"]
+      owasp: ["A03:2021 - Injection"]
+      confidence: HIGH
+      impact: HIGH
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: $REQ.body
+              - pattern: $REQ.query
+              - pattern: $REQ.params
+          - metavariable-regex: { metavariable: $REQ, regex: ^(req|request)$ }
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $DB.prepare($SQL)
+              - pattern: $DB.exec($SQL)
+          # Receivers that look like a database handle (avoids matching RegExp#exec etc.)
+          - metavariable-regex: { metavariable: $DB, regex: '(?i)(^|\.)(db|database|sqlite|conn|connection)$' }
+          - focus-metavariable: $SQL
+
+  - id: securepipe.ssrf-outbound-request
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      A request parameter controls the URL of a server-side HTTP request (SSRF).
+      Let callers choose from a server-side allowlist (a key), never a URL.
+    metadata:
+      category: security
+      cwe: ["CWE-918: Server-Side Request Forgery (SSRF)"]
+      owasp: ["A10:2021 - Server-Side Request Forgery"]
+      confidence: HIGH
+      impact: HIGH
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: $REQ.body
+              - pattern: $REQ.query
+              - pattern: $REQ.params
+          - metavariable-regex: { metavariable: $REQ, regex: ^(req|request)$ }
+    pattern-sanitizers:
+      # Looking a caller-supplied KEY up in a server-side allowlist is the approved pattern.
+      - pattern: $CFG.previewSources.get(...)
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: axios($URL, ...)
+              - pattern: axios.get($URL, ...)
+              - pattern: axios.post($URL, ...)
+              - pattern: axios.request($URL, ...)
+              - pattern: fetch($URL, ...)
+          - focus-metavariable: $URL
+      - patterns:
+          - pattern: $HTTP.get($URL, ...)
+          - metavariable-regex: { metavariable: $HTTP, regex: ^(http|https|got|request|superagent)$ }
+          - focus-metavariable: $URL
+
+  - id: securepipe.command-injection-exec
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      Request data flows into a shell command (exec/execSync). Never build shell strings from input:
+      use execFile/spawn with an argument array and no shell, or avoid spawning a process.
+    metadata:
+      category: security
+      cwe: ["CWE-78: OS Command Injection"]
+      owasp: ["A03:2021 - Injection"]
+      confidence: HIGH
+      impact: HIGH
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: $REQ.body
+              - pattern: $REQ.query
+              - pattern: $REQ.params
+          - metavariable-regex: { metavariable: $REQ, regex: ^(req|request)$ }
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: exec($CMD, ...)
+              - pattern: execSync($CMD, ...)
+              - pattern: child_process.exec($CMD, ...)
+              - pattern: child_process.execSync($CMD, ...)
+          - focus-metavariable: $CMD
+
+  - id: securepipe.path-traversal-fs
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      Request data flows into a filesystem path. Validate against a strict filename pattern, resolve
+      against a fixed root and verify the result stays inside it (or serve with res.sendFile(name, { root })).
+    metadata:
+      category: security
+      cwe: ["CWE-22: Path Traversal"]
+      owasp: ["A01:2021 - Broken Access Control"]
+      confidence: HIGH
+      impact: HIGH
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: $REQ.body
+              - pattern: $REQ.query
+              - pattern: $REQ.params
+          - metavariable-regex: { metavariable: $REQ, regex: ^(req|request)$ }
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: fs.readFile($P, ...)
+              - pattern: fs.readFileSync($P, ...)
+              - pattern: fs.createReadStream($P, ...)
+              - pattern: fs.writeFile($P, ...)
+              - pattern: fs.writeFileSync($P, ...)
+              - pattern: fs.unlink($P, ...)
+              - pattern: fs.unlinkSync($P, ...)
+          - focus-metavariable: $P
+
+  - id: securepipe.reflected-xss-res-send
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      Request data is written straight into an HTML response (reflected XSS). Render through a
+      template engine that auto-escapes (EJS <%= %>), or send JSON.
+    metadata:
+      category: security
+      cwe: ["CWE-79: Cross-site Scripting"]
+      owasp: ["A03:2021 - Injection"]
+      confidence: HIGH
+      impact: HIGH
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: $REQ.body
+              - pattern: $REQ.query
+              - pattern: $REQ.params
+          - metavariable-regex: { metavariable: $REQ, regex: ^(req|request)$ }
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $RES.send($X)
+              - pattern: $RES.write($X)
+          - metavariable-regex: { metavariable: $RES, regex: ^(res|response)$ }
+          - focus-metavariable: $X
+
+  - id: securepipe.node-serialize-unserialize
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      node-serialize's unserialize() executes functions embedded in its input (CVE-2017-5941, RCE).
+      Parse untrusted data with JSON.parse and validate the shape instead.
+    metadata:
+      category: security
+      cwe: ["CWE-502: Deserialization of Untrusted Data"]
+      owasp: ["A08:2021 - Software and Data Integrity Failures"]
+      confidence: HIGH
+      impact: HIGH
+    pattern-either:
+      - pattern: require('node-serialize').unserialize(...)
+      - patterns:
+          - pattern: unserialize(...)
+          - pattern-inside: |
+              const { unserialize } = require('node-serialize');
+              ...
+
+  - id: securepipe.jwt-verify-without-algorithms
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      jwt.verify() without an explicit `algorithms` allowlist trusts the token's own header.
+      Pass { algorithms: ['HS256'] } (or your chosen algorithm).
+    metadata:
+      category: security
+      cwe: ["CWE-347: Improper Verification of Cryptographic Signature"]
+      owasp: ["A02:2021 - Cryptographic Failures"]
+      confidence: HIGH
+      impact: HIGH
+    patterns:
+      - pattern-either:
+          - pattern: $JWT.verify($TOKEN, $KEY)
+          - pattern: $JWT.verify($TOKEN, $KEY, $OPTS)
+      - pattern-not: |
+          $JWT.verify($TOKEN, $KEY, { ..., algorithms: $A, ... })
+      - metavariable-regex: { metavariable: $JWT, regex: ^(jwt|jsonwebtoken)$ }
+
+  - id: securepipe.weak-hash-md5-sha1
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      MD5/SHA-1 are broken for security purposes. For passwords use bcrypt/argon2/scrypt;
+      for integrity use SHA-256 or better.
+    metadata:
+      category: security
+      cwe: ["CWE-327: Use of a Broken or Risky Cryptographic Algorithm"]
+      owasp: ["A02:2021 - Cryptographic Failures"]
+      confidence: HIGH
+      impact: MEDIUM
+    pattern-either:
+      - pattern: crypto.createHash("md5")
+      - pattern: crypto.createHash("sha1")
+
+  - id: securepipe.prototype-pollution-lodash-merge
+    mode: taint
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      Deep-merging request data into an object enables prototype pollution. Copy only
+      whitelisted, validated keys instead of merging raw input.
+    metadata:
+      category: security
+      cwe: ["CWE-1321: Improperly Controlled Modification of Object Prototype Attributes"]
+      owasp: ["A08:2021 - Software and Data Integrity Failures"]
+      confidence: MEDIUM
+      impact: MEDIUM
+    pattern-sources:
+      - patterns:
+          - pattern-either:
+              - pattern: $REQ.body
+              - pattern: $REQ.query
+          - metavariable-regex: { metavariable: $REQ, regex: ^(req|request)$ }
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: _.merge(...)
+              - pattern: _.defaultsDeep(...)
+              - pattern: _.mergeWith(...)
+              - pattern: _.set(...)
+
+  - id: securepipe.hardcoded-secret-in-object
+    languages: [javascript, typescript]
+    severity: ERROR
+    # Test code legitimately contains throwaway credentials; production code does not.
+    paths:
+      exclude: ["**/test/**", "**/tests/**", "**/*.test.js", "**/*.spec.js"]
+    message: >-
+      A credential-looking property is assigned a string literal. Read secrets from the
+      environment (and fail fast when missing); never commit them.
+    metadata:
+      category: security
+      cwe: ["CWE-798: Use of Hard-coded Credentials"]
+      owasp: ["A07:2021 - Identification and Authentication Failures"]
+      confidence: MEDIUM
+      impact: HIGH
+    patterns:
+      - pattern: |
+          { ..., $KEY: "$VAL", ... }
+      - metavariable-regex: { metavariable: $KEY, regex: '(?i)^(.*secret.*|.*passw(or)?d.*|.*api_?key.*|.*token.*)$' }
+      - metavariable-regex: { metavariable: $VAL, regex: '^.{8,}$' }
+      - focus-metavariable: $VAL
+
+  # ---- docker-compose (works with modern files that have no `version:` key) ----
+  - id: securepipe.compose-privileged-container
+    languages: [generic]
+    severity: ERROR
+    paths: { include: ["*docker-compose*.y*ml", "*compose.y*ml"] }
+    message: "Privileged containers have near-full host access. Remove privileged and add only the capabilities you need."
+    metadata: { category: security, cwe: ["CWE-250: Execution with Unnecessary Privileges"], confidence: HIGH, impact: HIGH }
+    pattern-regex: '(?m)^\s*privileged:\s*true\b'
+
+  - id: securepipe.compose-docker-socket-mount
+    languages: [generic]
+    severity: ERROR
+    paths: { include: ["*docker-compose*.y*ml", "*compose.y*ml"] }
+    message: "Mounting the Docker socket gives the container root on the host. Remove it."
+    metadata: { category: security, cwe: ["CWE-250: Execution with Unnecessary Privileges"], confidence: HIGH, impact: HIGH }
+    pattern-regex: '(?m)^\s*-\s*["'']?/var/run/docker\.sock'
+
+  - id: securepipe.compose-published-port-all-interfaces
+    languages: [generic]
+    severity: WARNING
+    paths: { include: ["*docker-compose*.y*ml", "*compose.y*ml"] }
+    message: >-
+      Port published on all interfaces. Docker bypasses ufw, so this is world-reachable.
+      Bind to 127.0.0.1 and expose via a reverse proxy (80/443 are exempt: that is what the proxy is for).
+    metadata: { category: security, cwe: ["CWE-668: Exposure of Resource to Wrong Sphere"], confidence: HIGH, impact: MEDIUM }
+    pattern-regex: '(?m)^\s*-\s*["'']?(?:0\.0\.0\.0:)?(?!(?:80|443):(?:80|443)\b)\d{2,5}:\d{2,5}(?:/(?:tcp|udp))?["'']?\s*(?:\#.*)?$'
+
+  - id: securepipe.compose-runs-as-root
+    languages: [generic]
+    severity: WARNING
+    paths: { include: ["*docker-compose*.y*ml", "*compose.y*ml"] }
+    message: "Service explicitly runs as root. Use a non-root user."
+    metadata: { category: security, cwe: ["CWE-250: Execution with Unnecessary Privileges"], confidence: HIGH, impact: MEDIUM }
+    pattern-regex: '(?m)^\s*user:\s*["'']?(?:root|0)(?::\S+)?["'']?\s*$'

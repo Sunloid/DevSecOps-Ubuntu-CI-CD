@@ -1,0 +1,18 @@
+# BASELINE - intentionally insecure (V28)
+services:
+  app:
+    build: .
+    image: practice-server:latest
+    restart: always
+    user: root
+    privileged: true                         # [V28] full host capabilities
+    cap_add:
+      - SYS_ADMIN
+    ports:
+      - "3000:3000"                          # [V28] binds 0.0.0.0 and bypasses UFW via Docker's iptables rules
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock   # [V28] container == root on the host
+      - ./:/app
+    environment:
+      JWT_SECRET: supersecret123             # [V28] inline secrets
+      DB_PASSWORD: hMzw6yS51o2dFxzxyd

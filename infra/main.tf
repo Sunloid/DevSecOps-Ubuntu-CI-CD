@@ -87,12 +87,5 @@ resource "aws_instance" "app" {
     volume_size = 20 # [V29] not encrypted
   }
 
-  user_data = <<-EOT
-    #!/bin/bash
-    echo 'ubuntu:Passw0rd123' | chpasswd
-    sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
-    systemctl restart ssh
-  EOT
-
   tags = { Name = "notes-baseline" }
 }

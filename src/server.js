@@ -157,4 +157,9 @@ app.use((err, req, res, next) => {
 });
 
 const port = argv.port || config.port;
-app.listen(port, () => console.log('notes-api (baseline) listening on ' + port));
+config.loadSecrets()
+  .then(() => app.listen(port, () => console.log('notes-api (baseline) listening on ' + port)))
+  .catch((err) => {
+    console.error('Could not load secrets: ' + err.message);
+    process.exit(1);
+  });

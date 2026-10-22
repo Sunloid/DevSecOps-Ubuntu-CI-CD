@@ -8,3 +8,4 @@ reports/
 !.env.example
 id_*
 *.pem
+data/*.db

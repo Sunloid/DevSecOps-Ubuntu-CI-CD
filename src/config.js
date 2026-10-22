@@ -8,11 +8,9 @@ module.exports = {
   uploadDir: path.join(__dirname, '..', 'uploads'),
 
   // [V10] Hard-coded signing secret, trivially guessable.
-  jwtSecret: 'supersecret123',
+  jwtSecret: process.env.JWT_SECRET,
 
   aws: {
     region: 'ap-south-1',
-    accessKeyId: 'AKIAPMDRMA2LMN3ERQDN',
-    secretAccessKey: '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',
   },
 };

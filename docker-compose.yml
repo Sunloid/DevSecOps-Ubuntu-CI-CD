@@ -14,5 +14,5 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock   # [V28] container == root on the host
       - ./:/app
     environment:
-      JWT_SECRET: supersecret123             # [V28] inline secrets
-      DB_PASSWORD: hMzw6yS51o2dFxzxyd
+      JWT_SECRET: ${JWT_SECRET}            # [V28] inline secrets
+      DB_PASSWORD: ${DB_PASSWORD}

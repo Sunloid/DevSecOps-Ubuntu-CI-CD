@@ -3,3 +3,8 @@ reports/
 *.tfstate*
 .terraform/
 # NOTE: .env.production and id_deploy are committed ON PURPOSE (fake credentials) so the scanners have something to find.
+.env
+.env.*
+!.env.example
+id_*
+*.pem

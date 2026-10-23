@@ -1,0 +1,528 @@
+﻿Testing  (package-lock.json) ...
+
+Tested 144 dependencies for known issues, found 60 issues, 66 vulnerable paths.
+
+Open Security issues: 60
+
+ Ô£ù [LOW] Prototype Pollution
+   Finding ID: SNYK-JS-MINIMIST-2429795
+   Info: https://snyk.io/vuln/SNYK-JS-MINIMIST-2429795
+   Introduced by: minimist
+   Introduced through: practice-server@0.9.0 > minimist@1.2.0
+
+ Ô£ù [LOW] Cross-site Scripting
+   Finding ID: SNYK-JS-SEND-7926862
+   Info: https://snyk.io/vuln/SNYK-JS-SEND-7926862
+   Introduced by: send
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > send@0.16.0
+
+ Ô£ù [LOW] Cross-site Scripting
+   Finding ID: SNYK-JS-SERVESTATIC-7926865
+   Info: https://snyk.io/vuln/SNYK-JS-SERVESTATIC-7926865
+   Introduced by: serve-static
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > serve-static@1.13.0
+
+ Ô£ù [MEDIUM] Server-Side Request Forgery (SSRF)
+   Finding ID: SNYK-JS-AXIOS-1038255
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-1038255
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Allocation of Resources Without Limits or Throttling
+   Finding ID: SNYK-JS-AXIOS-12613773
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-12613773
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Unintended Proxy or Intermediary ('Confused Deputy')
+   Finding ID: SNYK-JS-AXIOS-15965856
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-15965856
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Improper Encoding or Escaping of Output
+   Finding ID: SNYK-JS-AXIOS-16298055
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-16298055
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Server-side Request Forgery (SSRF)
+   Finding ID: SNYK-JS-AXIOS-16298095
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-16298095
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Allocation of Resources Without Limits or Throttling
+   Finding ID: SNYK-JS-AXIOS-16298130
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-16298130
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Allocation of Resources Without Limits or Throttling
+   Finding ID: SNYK-JS-AXIOS-16298162
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-16298162
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Insertion of Sensitive Information Into Sent Data
+   Finding ID: SNYK-JS-AXIOS-16299478
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-16299478
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Prototype Pollution
+   Finding ID: SNYK-JS-AXIOS-16299925
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-16299925
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Prototype Pollution
+   Finding ID: SNYK-JS-AXIOS-17111081
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-17111081
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Regular Expression Denial of Service (ReDoS)
+   Finding ID: SNYK-JS-AXIOS-17172532
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-17172532
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Insertion of Sensitive Information Into Sent Data
+   Finding ID: SNYK-JS-AXIOS-17172930
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-17172930
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Uncontrolled Recursion
+   Finding ID: SNYK-JS-AXIOS-18060730
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-18060730
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Prototype Pollution
+   Finding ID: SNYK-JS-AXIOS-18065349
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-18065349
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Prototype Pollution
+   Finding ID: SNYK-JS-AXIOS-18065355
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-18065355
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Regular Expression Denial of Service (ReDoS)
+   Finding ID: SNYK-JS-AXIOS-6124857
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-6124857
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Server-side Request Forgery (SSRF)
+   Finding ID: SNYK-JS-AXIOS-9292519
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-9292519
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Server-side Request Forgery (SSRF)
+   Finding ID: SNYK-JS-AXIOS-9403194
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-9403194
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [MEDIUM] Allocation of Resources Without Limits or Throttling
+   Finding ID: SNYK-JS-BODYPARSER-17906397
+   Info: https://snyk.io/vuln/SNYK-JS-BODYPARSER-17906397
+   Introduced by: body-parser
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > body-parser@1.18.2
+
+ Ô£ù [MEDIUM] Cross-site Scripting (XSS)
+   Finding ID: SNYK-JS-COOKIE-8163060
+   Info: https://snyk.io/vuln/SNYK-JS-COOKIE-8163060
+   Introduced by: cookie
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > cookie@0.3.1
+
+ Ô£ù [MEDIUM] Improper Control of Dynamically-Managed Code Resources
+   Finding ID: SNYK-JS-EJS-6689533
+   Info: https://snyk.io/vuln/SNYK-JS-EJS-6689533
+   Introduced by: ejs
+   Introduced through: practice-server@0.9.0 > ejs@2.7.1
+
+ Ô£ù [MEDIUM] Open Redirect
+   Finding ID: SNYK-JS-EXPRESS-6474509
+   Info: https://snyk.io/vuln/SNYK-JS-EXPRESS-6474509
+   Introduced by: express
+   Introduced through: practice-server@0.9.0 > express@4.16.0
+
+ Ô£ù [MEDIUM] Cross-site Scripting
+   Finding ID: SNYK-JS-EXPRESS-7926867
+   Info: https://snyk.io/vuln/SNYK-JS-EXPRESS-7926867
+   Introduced by: express
+   Introduced through: practice-server@0.9.0 > express@4.16.0
+
+ Ô£ù [MEDIUM] Improper Authentication
+   Finding ID: SNYK-JS-JSONWEBTOKEN-3180022
+   Info: https://snyk.io/vuln/SNYK-JS-JSONWEBTOKEN-3180022
+   Introduced by: jsonwebtoken
+   Introduced through: practice-server@0.9.0 > jsonwebtoken@8.5.1
+
+ Ô£ù [MEDIUM] Improper Restriction of Security Token Assignment
+   Finding ID: SNYK-JS-JSONWEBTOKEN-3180024
+   Info: https://snyk.io/vuln/SNYK-JS-JSONWEBTOKEN-3180024
+   Introduced by: jsonwebtoken
+   Introduced through: practice-server@0.9.0 > jsonwebtoken@8.5.1
+
+ Ô£ù [MEDIUM] Use of a Broken or Risky Cryptographic Algorithm
+   Finding ID: SNYK-JS-JSONWEBTOKEN-3180026
+   Info: https://snyk.io/vuln/SNYK-JS-JSONWEBTOKEN-3180026
+   Introduced by: jsonwebtoken
+   Introduced through: practice-server@0.9.0 > jsonwebtoken@8.5.1
+
+ Ô£ù [MEDIUM] Regular Expression Denial of Service (ReDoS)
+   Finding ID: SNYK-JS-LODASH-1018905
+   Info: https://snyk.io/vuln/SNYK-JS-LODASH-1018905
+   Introduced by: lodash
+   Introduced through: practice-server@0.9.0 > lodash@4.17.11
+
+ Ô£ù [MEDIUM] Prototype Pollution
+   Finding ID: SNYK-JS-LODASH-15053838
+   Info: https://snyk.io/vuln/SNYK-JS-LODASH-15053838
+   Introduced by: lodash
+   Introduced through: practice-server@0.9.0 > lodash@4.17.11
+
+ Ô£ù [MEDIUM] Prototype Pollution
+   Finding ID: SNYK-JS-LODASH-15869619
+   Info: https://snyk.io/vuln/SNYK-JS-LODASH-15869619
+   Introduced by: lodash
+   Introduced through: practice-server@0.9.0 > lodash@4.17.11
+
+ Ô£ù [MEDIUM] Prototype Pollution
+   Finding ID: SNYK-JS-MINIMIST-559764
+   Info: https://snyk.io/vuln/SNYK-JS-MINIMIST-559764
+   Introduced by: minimist
+   Introduced through: practice-server@0.9.0 > minimist@1.2.0
+
+ Ô£ù [MEDIUM] Regular Expression Denial of Service (ReDoS)
+   Finding ID: SNYK-JS-PATHTOREGEXP-15789761
+   Info: https://snyk.io/vuln/SNYK-JS-PATHTOREGEXP-15789761
+   Introduced by: path-to-regexp
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > path-to-regexp@0.1.7
+
+ Ô£ù [MEDIUM] Regular Expression Denial of Service (ReDoS)
+   Finding ID: SNYK-JS-PATHTOREGEXP-7925106
+   Info: https://snyk.io/vuln/SNYK-JS-PATHTOREGEXP-7925106
+   Introduced by: path-to-regexp
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > path-to-regexp@0.1.7
+
+ Ô£ù [MEDIUM] Regular Expression Denial of Service (ReDoS)
+   Finding ID: SNYK-JS-PATHTOREGEXP-8482416
+   Info: https://snyk.io/vuln/SNYK-JS-PATHTOREGEXP-8482416
+   Introduced by: path-to-regexp
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > path-to-regexp@0.1.7
+
+ Ô£ù [MEDIUM] Uncaught Exception
+   Finding ID: SNYK-JS-QS-19432019
+   Info: https://snyk.io/vuln/SNYK-JS-QS-19432019
+   Introduced by: qs
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > qs@6.5.1
+
+ Ô£ù [HIGH] Prototype Pollution
+   Finding ID: SNYK-JS-AXIOS-15252993
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-15252993
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [HIGH] Regular Expression Denial of Service (ReDoS)
+   Finding ID: SNYK-JS-AXIOS-1579269
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-1579269
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [HIGH] HTTP Response Splitting
+   Finding ID: SNYK-JS-AXIOS-15969258
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-15969258
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [HIGH] Uncontrolled Recursion
+   Finding ID: SNYK-JS-AXIOS-16299923
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-16299923
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [HIGH] Prototype Pollution
+   Finding ID: SNYK-JS-AXIOS-17111060
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-17111060
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [HIGH] Server-side Request Forgery (SSRF)
+   Finding ID: SNYK-JS-AXIOS-17111062
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-17111062
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [HIGH] Prototype Pollution
+   Finding ID: SNYK-JS-AXIOS-17111079
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-17111079
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [HIGH] Insertion of Sensitive Information Into Sent Data
+   Finding ID: SNYK-JS-AXIOS-17172681
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-17172681
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [HIGH] Cross-site Request Forgery (CSRF)
+   Finding ID: SNYK-JS-AXIOS-6032459
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-6032459
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [HIGH] Uncaught Exception
+   Finding ID: SNYK-JS-BODYPARSER-21431495
+   Info: https://snyk.io/vuln/SNYK-JS-BODYPARSER-21431495
+   Introduced by: body-parser
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > body-parser@1.18.2
+
+ Ô£ù [HIGH] Asymmetric Resource Consumption (Amplification)
+   Finding ID: SNYK-JS-BODYPARSER-7926860
+   Info: https://snyk.io/vuln/SNYK-JS-BODYPARSER-7926860
+   Introduced by: body-parser
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > body-parser@1.18.2
+
+ Ô£ù [HIGH] Remote Code Execution (RCE)
+   Finding ID: SNYK-JS-EJS-2803307
+   Info: https://snyk.io/vuln/SNYK-JS-EJS-2803307
+   Introduced by: ejs
+   Introduced through: practice-server@0.9.0 > ejs@2.7.1
+
+ Ô£ù [HIGH] Code Injection
+   Finding ID: SNYK-JS-LODASH-1040724
+   Info: https://snyk.io/vuln/SNYK-JS-LODASH-1040724
+   Introduced by: lodash
+   Introduced through: practice-server@0.9.0 > lodash@4.17.11
+
+ Ô£ù [HIGH] Arbitrary Code Injection
+   Finding ID: SNYK-JS-LODASH-15869625
+   Info: https://snyk.io/vuln/SNYK-JS-LODASH-15869625
+   Introduced by: lodash
+   Introduced through: practice-server@0.9.0 > lodash@4.17.11
+
+ Ô£ù [HIGH] Prototype Pollution
+   Finding ID: SNYK-JS-LODASH-450202
+   Info: https://snyk.io/vuln/SNYK-JS-LODASH-450202
+   Introduced by: lodash
+   Introduced through: practice-server@0.9.0 > lodash@4.17.11
+
+ Ô£ù [HIGH] Prototype Pollution
+   Finding ID: SNYK-JS-LODASH-567746
+   Info: https://snyk.io/vuln/SNYK-JS-LODASH-567746
+   Introduced by: lodash
+   Introduced through: practice-server@0.9.0 > lodash@4.17.11
+
+ Ô£ù [HIGH] Prototype Pollution
+   Finding ID: SNYK-JS-LODASH-608086
+   Info: https://snyk.io/vuln/SNYK-JS-LODASH-608086
+   Introduced by: lodash
+   Introduced through: practice-server@0.9.0 > lodash@4.17.11
+
+ Ô£ù [HIGH] Prototype Pollution
+   Finding ID: SNYK-JS-LODASH-6139239
+   Info: https://snyk.io/vuln/SNYK-JS-LODASH-6139239
+   Introduced by: lodash
+   Introduced through: practice-server@0.9.0 > lodash@4.17.11
+
+ Ô£ù [HIGH] Allocation of Resources Without Limits or Throttling
+   Finding ID: SNYK-JS-QS-14724253
+   Info: https://snyk.io/vuln/SNYK-JS-QS-14724253
+   Introduced by: qs
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > qs@6.5.1
+
+ Ô£ù [HIGH] Prototype Poisoning
+   Finding ID: SNYK-JS-QS-3153490
+   Info: https://snyk.io/vuln/SNYK-JS-QS-3153490
+   Introduced by: qs
+   Introduced through: practice-server@0.9.0 > express@4.16.0 > qs@6.5.1
+
+ Ô£ù [CRITICAL] HTTP Response Splitting
+   Finding ID: SNYK-JS-AXIOS-16298058
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-16298058
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [CRITICAL] Prototype Pollution
+   Finding ID: SNYK-JS-AXIOS-16299904
+   Info: https://snyk.io/vuln/SNYK-JS-AXIOS-16299904
+   Introduced by: axios
+   Introduced through: practice-server@0.9.0 > axios@0.21.0
+
+ Ô£ù [CRITICAL] Arbitrary Code Execution
+   Finding ID: npm:node-serialize:20170208
+   Info: https://snyk.io/vuln/npm:node-serialize:20170208
+   Introduced by: node-serialize
+   Introduced through: practice-server@0.9.0 > node-serialize@0.0.4
+
+Issues to fix by upgrading:
+
+  Upgrade axios@0.21.0 to axios@0.33.0 to fix
+  Ô£ù Server-Side Request Forgery (SSRF) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-1038255] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Allocation of Resources Without Limits or Throttling [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-12613773] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Unintended Proxy or Intermediary ('Confused Deputy') [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-15965856] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Improper Encoding or Escaping of Output [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-16298055] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Server-side Request Forgery (SSRF) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-16298095] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Allocation of Resources Without Limits or Throttling [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-16298130] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Allocation of Resources Without Limits or Throttling [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-16298162] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Insertion of Sensitive Information Into Sent Data [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-16299478] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Prototype Pollution [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-16299925] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Prototype Pollution [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-17111081] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Regular Expression Denial of Service (ReDoS) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-17172532] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Insertion of Sensitive Information Into Sent Data [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-17172930] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Uncontrolled Recursion [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-18060730] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Prototype Pollution [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-18065349] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Prototype Pollution [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-18065355] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Regular Expression Denial of Service (ReDoS) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-6124857] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Server-side Request Forgery (SSRF) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-9292519] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Server-side Request Forgery (SSRF) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-9403194] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Prototype Pollution [HIGH] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-15252993] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Regular Expression Denial of Service (ReDoS) [HIGH] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-1579269] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù HTTP Response Splitting [HIGH] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-15969258] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Uncontrolled Recursion [HIGH] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-16299923] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Prototype Pollution [HIGH] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-17111060] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Server-side Request Forgery (SSRF) [HIGH] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-17111062] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Prototype Pollution [HIGH] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-17111079] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Insertion of Sensitive Information Into Sent Data [HIGH] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-17172681] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Cross-site Request Forgery (CSRF) [HIGH] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-6032459] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù HTTP Response Splitting [CRITICAL] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-16298058] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+  Ô£ù Prototype Pollution [CRITICAL] [https://security.snyk.io/vuln/SNYK-JS-AXIOS-16299904] in axios@0.21.0
+    introduced by practice-server@0.9.0 > axios@0.21.0
+
+  Upgrade ejs@2.7.1 to ejs@3.1.10 to fix
+  Ô£ù Improper Control of Dynamically-Managed Code Resources [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-EJS-6689533] in ejs@2.7.1
+    introduced by practice-server@0.9.0 > ejs@2.7.1
+  Ô£ù Remote Code Execution (RCE) [HIGH] [https://security.snyk.io/vuln/SNYK-JS-EJS-2803307] in ejs@2.7.1
+    introduced by practice-server@0.9.0 > ejs@2.7.1
+
+  Upgrade express@4.16.0 to express@4.22.3 to fix
+  Ô£ù Cross-site Scripting [LOW] [https://security.snyk.io/vuln/SNYK-JS-SEND-7926862] in send@0.16.0
+    introduced by practice-server@0.9.0 > express@4.16.0 > send@0.16.0 and 1 other path
+  Ô£ù Cross-site Scripting [LOW] [https://security.snyk.io/vuln/SNYK-JS-SERVESTATIC-7926865] in serve-static@1.13.0
+    introduced by practice-server@0.9.0 > express@4.16.0 > serve-static@1.13.0
+  Ô£ù Allocation of Resources Without Limits or Throttling [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-BODYPARSER-17906397] in body-parser@1.18.2
+    introduced by practice-server@0.9.0 > express@4.16.0 > body-parser@1.18.2
+  Ô£ù Cross-site Scripting (XSS) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-COOKIE-8163060] in cookie@0.3.1
+    introduced by practice-server@0.9.0 > express@4.16.0 > cookie@0.3.1
+  Ô£ù Open Redirect [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-EXPRESS-6474509] in express@4.16.0
+    introduced by practice-server@0.9.0 > express@4.16.0
+  Ô£ù Cross-site Scripting [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-EXPRESS-7926867] in express@4.16.0
+    introduced by practice-server@0.9.0 > express@4.16.0
+  Ô£ù Regular Expression Denial of Service (ReDoS) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-PATHTOREGEXP-15789761] in path-to-regexp@0.1.7
+    introduced by practice-server@0.9.0 > express@4.16.0 > path-to-regexp@0.1.7
+  Ô£ù Regular Expression Denial of Service (ReDoS) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-PATHTOREGEXP-7925106] in path-to-regexp@0.1.7
+    introduced by practice-server@0.9.0 > express@4.16.0 > path-to-regexp@0.1.7
+  Ô£ù Regular Expression Denial of Service (ReDoS) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-PATHTOREGEXP-8482416] in path-to-regexp@0.1.7
+    introduced by practice-server@0.9.0 > express@4.16.0 > path-to-regexp@0.1.7
+  Ô£ù Uncaught Exception [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-QS-19432019] in qs@6.5.1
+    introduced by practice-server@0.9.0 > express@4.16.0 > qs@6.5.1 and 1 other path
+  Ô£ù Uncaught Exception [HIGH] [https://security.snyk.io/vuln/SNYK-JS-BODYPARSER-21431495] in body-parser@1.18.2
+    introduced by practice-server@0.9.0 > express@4.16.0 > body-parser@1.18.2
+  Ô£ù Asymmetric Resource Consumption (Amplification) [HIGH] [https://security.snyk.io/vuln/SNYK-JS-BODYPARSER-7926860] in body-parser@1.18.2
+    introduced by practice-server@0.9.0 > express@4.16.0 > body-parser@1.18.2
+  Ô£ù Allocation of Resources Without Limits or Throttling [HIGH] [https://security.snyk.io/vuln/SNYK-JS-QS-14724253] in qs@6.5.1
+    introduced by practice-server@0.9.0 > express@4.16.0 > qs@6.5.1 and 1 other path
+  Ô£ù Prototype Poisoning [HIGH] [https://security.snyk.io/vuln/SNYK-JS-QS-3153490] in qs@6.5.1
+    introduced by practice-server@0.9.0 > express@4.16.0 > qs@6.5.1 and 1 other path
+
+  Upgrade jsonwebtoken@8.5.1 to jsonwebtoken@9.0.0 to fix
+  Ô£ù Improper Authentication [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-JSONWEBTOKEN-3180022] in jsonwebtoken@8.5.1
+    introduced by practice-server@0.9.0 > jsonwebtoken@8.5.1
+  Ô£ù Improper Restriction of Security Token Assignment [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-JSONWEBTOKEN-3180024] in jsonwebtoken@8.5.1
+    introduced by practice-server@0.9.0 > jsonwebtoken@8.5.1
+  Ô£ù Use of a Broken or Risky Cryptographic Algorithm [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-JSONWEBTOKEN-3180026] in jsonwebtoken@8.5.1
+    introduced by practice-server@0.9.0 > jsonwebtoken@8.5.1
+
+  Upgrade lodash@4.17.11 to lodash@4.18.1 to fix
+  Ô£ù Regular Expression Denial of Service (ReDoS) [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-LODASH-1018905] in lodash@4.17.11
+    introduced by practice-server@0.9.0 > lodash@4.17.11
+  Ô£ù Prototype Pollution [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-LODASH-15053838] in lodash@4.17.11
+    introduced by practice-server@0.9.0 > lodash@4.17.11
+  Ô£ù Prototype Pollution [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-LODASH-15869619] in lodash@4.17.11
+    introduced by practice-server@0.9.0 > lodash@4.17.11
+  Ô£ù Code Injection [HIGH] [https://security.snyk.io/vuln/SNYK-JS-LODASH-1040724] in lodash@4.17.11
+    introduced by practice-server@0.9.0 > lodash@4.17.11
+  Ô£ù Arbitrary Code Injection [HIGH] [https://security.snyk.io/vuln/SNYK-JS-LODASH-15869625] in lodash@4.17.11
+    introduced by practice-server@0.9.0 > lodash@4.17.11
+  Ô£ù Prototype Pollution [HIGH] [https://security.snyk.io/vuln/SNYK-JS-LODASH-450202] in lodash@4.17.11
+    introduced by practice-server@0.9.0 > lodash@4.17.11
+  Ô£ù Prototype Pollution [HIGH] [https://security.snyk.io/vuln/SNYK-JS-LODASH-567746] in lodash@4.17.11
+    introduced by practice-server@0.9.0 > lodash@4.17.11
+  Ô£ù Prototype Pollution [HIGH] [https://security.snyk.io/vuln/SNYK-JS-LODASH-608086] in lodash@4.17.11
+    introduced by practice-server@0.9.0 > lodash@4.17.11
+  Ô£ù Prototype Pollution [HIGH] [https://security.snyk.io/vuln/SNYK-JS-LODASH-6139239] in lodash@4.17.11
+    introduced by practice-server@0.9.0 > lodash@4.17.11
+
+  Upgrade minimist@1.2.0 to minimist@1.2.6 to fix
+  Ô£ù Prototype Pollution [LOW] [https://security.snyk.io/vuln/SNYK-JS-MINIMIST-2429795] in minimist@1.2.0
+    introduced by practice-server@0.9.0 > minimist@1.2.0 and 1 other path
+  Ô£ù Prototype Pollution [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-MINIMIST-559764] in minimist@1.2.0
+    introduced by practice-server@0.9.0 > minimist@1.2.0 and 1 other path
+
+Issues with no direct upgrade or patch:
+  Ô£ù Prototype Pollution [LOW] [https://security.snyk.io/vuln/SNYK-JS-MINIMIST-2429795] in minimist@1.2.0
+    introduced by practice-server@0.9.0 > minimist@1.2.0 and 1 other path
+  This issue was fixed in: 0.2.4, 1.2.6
+  Ô£ù Prototype Pollution [MEDIUM] [https://security.snyk.io/vuln/SNYK-JS-MINIMIST-559764] in minimist@1.2.0
+    introduced by practice-server@0.9.0 > minimist@1.2.0 and 1 other path
+  This issue was fixed in: 0.2.1, 1.2.3
+  Ô£ù Arbitrary Code Execution [CRITICAL] [https://security.snyk.io/vuln/npm:node-serialize:20170208] in node-serialize@0.0.4
+    introduced by practice-server@0.9.0 > node-serialize@0.0.4
+
+Ôò¡ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔò«
+Ôöé Test Summary                                                      Ôöé
+Ôöé                                                                   Ôöé
+Ôöé   Organization:      sunloid                                      Ôöé
+Ôöé   Test type:         Software Composition Analysis                Ôöé
+Ôöé   Project name:      practice-server                              Ôöé
+Ôöé   Project path:      C:\GitHub Projects\DevSecOps-Ubuntu-CI-CD    Ôöé
+Ôöé   Target file:       package-lock.json                            Ôöé
+Ôöé                                                                   Ôöé
+Ôöé   Total security issues: 60                                       Ôöé
+Ôöé   Ignored: 0 [ 0 CRITICAL  0 HIGH  0 MEDIUM  0 LOW ]              Ôöé
+Ôöé   Open   : 60 [ 3 CRITICAL  20 HIGH  34 MEDIUM  3 LOW ]           Ôöé
+Ôò░ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔò»
+
+
+­ƒÆí Tip
+
+   To view ignored issues, use the --include-ignores option.
+                                                            
+

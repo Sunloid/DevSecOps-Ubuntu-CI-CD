@@ -9,15 +9,16 @@
   },
   "license": "MIT",
   "dependencies": {
-    "axios": "0.21.0",
+    "axios": "0.34.0",
     "better-sqlite3": "12.11.1",
     "cors": "2.8.5",
-    "ejs": "2.7.1",
-    "express": "4.16.0",
-    "jsonwebtoken": "8.5.1",
-    "lodash": "4.17.11",
-    "minimist": "1.2.0",
-    "node-serialize": "0.0.4"
+    "ejs": "3.1.10",
+    "express": "4.22.3",
+    "jsonwebtoken": "9.0.0",
+    "lodash": "4.18.1",
+    "minimist": "1.2.6",
+    "node-serialize": "0.0.4",
+    "snyk": "^1.1308.2"
   },
   "devDependencies": {
     "nodemon": "2.0.4"

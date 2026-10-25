@@ -4,6 +4,6 @@
 <body>
   <h1><%= note.title %></h1>
   <!-- [V03] Stored XSS: note body is rendered unescaped (<%- %>). -->
-  <div class="note-body"><%- note.body %></div>
+  <div class="note-body"><%= note.body %></div>
 </body>
 </html>

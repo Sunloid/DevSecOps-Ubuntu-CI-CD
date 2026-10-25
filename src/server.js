@@ -33,7 +33,7 @@ const bcryptHash = (s) => bcrypt.hashSync(s, 10);
 function auth(req, res, next) {
   const header = req.headers.authorization || '';
   try {
-    req.user = jwt.verify(header.replace('Bearer ', ''), config.jwtSecret);
+    req.user = jwt.verify(header.replace('Bearer ', ''), config.jwtSecret, {algorithms: ['HS256']});
     next();
   } catch (e) {
     res.status(401).json({ error: 'unauthorized' });
@@ -62,10 +62,14 @@ app.post('/api/auth/login', (req, res) => {
   const user = db
     // .prepare("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + md5(password) + "'")
     // .get();
-    .prepare("SELECT * FROM users WHERE username = ? AND password = ?")
-    .get(username, bcryptHash(password));
+    .prepare("SELECT * FROM users WHERE username = ?")
+    .get(username);
   if (!user) return res.status(401).json({ error: 'invalid credentials' });
-  const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, config.jwtSecret);
+  if (!bcrypt.compareSync(password, user.password)){
+    return res.status(401).json({ error: 'invalid credentials'})
+  }
+  const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, config.jwtSecret,
+    { algorithm: 'HS256', expiresIn: '1h' });
   res.json({ token });
 });
 
@@ -111,14 +115,16 @@ app.get('/search', (req, res) => {
 });
 
 app.get('/go', (req, res) => {
-  // [V13] Open redirect.
-  res.redirect(req.query.next);
+  const next = String(req.query.next || '/');
+  const safe = /^\/(?![/\\])[\w\-./?=&%]*$/.test(next) ? next : '/';
+  res.redirect(safe);
 });
 
 // ---------------------------------------------------------------- utilities
 app.get('/api/preview', auth, async (req, res) => {
-  // [V07] SSRF: server fetches any URL the caller supplies (incl. cloud metadata).
-  const r = await axios.get(req.query.url, { timeout: 5000 });
+  const url = config.previewSources.get(String(req.query.source));
+  if (!url) return res.status(404).json({ error: 'unknown source' });
+  const r = await axios.get(url, { timeout: 5000, maxRedirects: 0 });
   const title = (String(r.data).match(/<title>(.*?)<\/title>/i) || [])[1] || null;
   res.json({ status: r.status, title });
 });

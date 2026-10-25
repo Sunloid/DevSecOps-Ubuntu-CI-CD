@@ -6,6 +6,7 @@ module.exports = {
   port: process.env.PORT || 3000,
   dbPath: process.env.DB_PATH || path.join(__dirname, '..', 'data', 'app.db'),
   uploadDir: path.join(__dirname, '..', 'uploads'),
+  previewSources: new Map([['docs', 'https://example.com/']]),
 
   aws: {
     region: 'ap-south-1',

@@ -12,6 +12,7 @@ const minimist = require('minimist');
 const { unserialize } = require('node-serialize');
 const config = require('./config');
 const db = require('./db');
+const bcrypt = require('bcryptjs');
 
 const argv = minimist(process.argv.slice(2));
 const app = express();
@@ -25,7 +26,8 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // [V09] Unsalted MD5 password hashing.
-const md5 = (s) => crypto.createHash('md5').update(String(s)).digest('hex');
+// const md5 = (s) => crypto.createHash('md5').update(String(s)).digest('hex');
+const bcryptHash = (s) => bcrypt.hashSync(s, 10);
 
 // [V10] No algorithm pinning, no expiry; role is trusted from the token.
 function auth(req, res, next) {
@@ -47,7 +49,7 @@ app.post('/api/auth/register', (req, res) => {
     // [V14] Mass assignment: caller chooses their own role.
     const info = db
       .prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)')
-      .run(username, md5(password), req.body.role || 'user');
+      .run(username, bcryptHash(password), req.body.role || 'user');
     res.status(201).json({ id: info.lastInsertRowid });
   } catch (e) {
     res.status(400).json({ error: e.message, stack: e.stack }); // [V17] stack trace leak
@@ -58,8 +60,10 @@ app.post('/api/auth/login', (req, res) => {
   const { username, password } = req.body;
   // [V01] SQL injection in login (classic ' OR 1=1 -- bypass).
   const user = db
-    .prepare("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + md5(password) + "'")
-    .get();
+    // .prepare("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + md5(password) + "'")
+    // .get();
+    .prepare("SELECT * FROM users WHERE username = ? AND password = ?")
+    .get(username, bcryptHash(password));
   if (!user) return res.status(401).json({ error: 'invalid credentials' });
   const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, config.jwtSecret);
   res.json({ token });
@@ -80,8 +84,10 @@ app.post('/api/notes', auth, (req, res) => {
 app.get('/api/notes/search', auth, (req, res) => {
   // [V01] SQL injection via string concatenation.
   const rows = db
-    .prepare("SELECT id, title FROM notes WHERE owner_id = " + req.user.id + " AND title LIKE '%" + req.query.q + "%'")
-    .all();
+    // .prepare("SELECT id, title FROM notes WHERE owner_id = " + req.user.id + " AND title LIKE '%" + req.query.q + "%'")
+    // .all();
+    .prepare("SELECT id, title FROM notes WHERE owner_id = ? AND title LIKE ?")
+    .all(req.user.id, '%' + req.query.q + '%');
   res.json(rows);
 });
 

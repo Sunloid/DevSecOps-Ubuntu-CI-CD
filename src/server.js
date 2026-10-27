@@ -49,7 +49,7 @@ app.post('/api/auth/register', (req, res) => {
     // [V14] Mass assignment: caller chooses their own role.
     const info = db
       .prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)')
-      .run(username, bcryptHash(password), req.body.role || 'user');
+      .run(username, bcryptHash(password), 'user');
     res.status(201).json({ id: info.lastInsertRowid });
   } catch (e) {
     res.status(400).json({ error: e.message, stack: e.stack }); // [V17] stack trace leak

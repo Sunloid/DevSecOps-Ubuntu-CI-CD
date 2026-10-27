@@ -15,4 +15,5 @@ RUN npm install
 EXPOSE 22 3000
 
 # [V26] No USER instruction -> the app runs as root.   [V27] No HEALTHCHECK.
+USER non-root 
 CMD ["npm", "start"]

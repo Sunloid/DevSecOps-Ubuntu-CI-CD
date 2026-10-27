@@ -4,15 +4,11 @@ services:
     build: .
     image: practice-server:latest
     restart: always
-    user: root
-    privileged: true                         # [V28] full host capabilities
+    user: non-root                      
     cap_add:
       - SYS_ADMIN
     ports:
-      - "3000:3000"                          # [V28] binds 0.0.0.0 and bypasses UFW via Docker's iptables rules
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock   # [V28] container == root on the host
-      - ./:/app
+      - "127.0.0.1:3000:3000"                          # [V28] binds 0.0.0.0 and bypasses UFW via Docker's iptables rules
     environment:
       JWT_SECRET: ${JWT_SECRET}            # [V28] inline secrets
       DB_PASSWORD: ${DB_PASSWORD}

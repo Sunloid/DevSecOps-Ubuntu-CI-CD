@@ -2,7 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
-const { exec } = require('child_process');
+const { execFile } = require('child_process');
 const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
@@ -111,7 +111,7 @@ app.get('/notes/:id/view', (req, res) => {
 // ---------------------------------------------------------------- web pages
 app.get('/search', (req, res) => {
   // [V04] Reflected XSS: user input concatenated into HTML.
-  res.send('<h1>Results for ' + req.query.q + '</h1>');
+  res.render('search', { query: req.query.q });
 });
 
 app.get('/go', (req, res) => {
@@ -142,7 +142,8 @@ app.get('/api/files/:name', auth, (req, res) => {
 
 app.patch('/api/settings', auth, (req, res) => {
   // [V15] Prototype pollution: unvalidated deep merge of request body.
-  res.json(_.merge({}, { theme: 'light', pageSize: 20 }, req.body));
+  const { theme, pageSize } = req.body;
+  res.json({ theme: theme || 'light', pageSize: pageSize || 20 });
 });
 
 app.post('/api/profile/import', auth, (req, res) => {
@@ -154,7 +155,11 @@ app.post('/api/profile/import', auth, (req, res) => {
 // ---------------------------------------------------------------- admin
 app.post('/api/admin/diagnostics/dns', auth, (req, res) => {
   // [V05] OS command injection. [V14] and no admin check at all.
-  exec('nslookup ' + req.body.host, (err, stdout, stderr) => res.json({ output: stdout || stderr }));
+  const host = String(req.body.host || '');
+  if (!/^[A-Za-z0-9][A-Za-z0-9.-]{0,252}$/.test(host)) {
+    return res.status(400).json({ error: 'invalid host' });
+  }
+  execFile('nslookup', [host], (err, stdout, stderr) => res.json({ output: stdout || stderr }));
 });
 
 app.post('/api/admin/users/:id/role', auth, (req, res) => {

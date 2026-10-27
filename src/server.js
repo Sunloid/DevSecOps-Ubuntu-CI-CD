@@ -130,15 +130,15 @@ app.get('/api/preview', auth, async (req, res) => {
 });
 
 app.get('/api/files/:name', auth, (req, res) => {
-  // [V06] Path traversal: ../../etc/passwd escapes the upload directory.
-  const file = path.join(config.uploadDir, req.params.name);
-  fs.readFile(file, (err, data) => (err ? res.status(404).end() : res.send(data)));
+  const name = String(req.params.name);
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$/.test(name)) {
+    return res.status(400).json({ error: 'invalid file name' });
+  }
+  res.sendFile(name, { root: config.uploadDir, dotfiles: 'deny' }, (err) => {
+    if (err) res.status(404).end();
+  });
 });
 
-app.get('/api/calc', (req, res) => {
-  // [V12] Code injection via eval().
-  res.json({ result: eval(req.query.expr) });
-});
 
 app.patch('/api/settings', auth, (req, res) => {
   // [V15] Prototype pollution: unvalidated deep merge of request body.

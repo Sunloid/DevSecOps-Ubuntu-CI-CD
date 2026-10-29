@@ -13,8 +13,10 @@ cd ~/path/to/DevSecOps-Ubuntu-CI-CD      # your repo folder
 
  
 ### 1. tell this terminal where Vault is, and log in as root
+```
 export VAULT_ADDR=http://127.0.0.1:8200
 export VAULT_TOKEN=myroot
+```
  
 ### 2. put the secret, policy and AppRole into Vault (the script you made)
 ./scripts/vault-setup.sh

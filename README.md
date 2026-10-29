@@ -1,6 +1,6 @@
 # practice-server
 
-A small, **intentionally vulnerable** Node.js API plus the pieces of a real deployment around it, so you can practise the whole DevSecOps loop on one realistic server:
+A small, **intentionally vulnerable** Node.js API plus the pieces of a real deployment around it, so you can practise the whole DevSecOps loop on your local WSL (Windows Subsystem for Linux) environment:
 
 **find the problem → fix it → watch the pipeline go green → harden the box it runs on.**
 
@@ -13,10 +13,10 @@ A small, **intentionally vulnerable** Node.js API plus the pieces of a real depl
 | `src/`, `package.json` | Express + SQLite notes API with 20+ planted flaws (tagged `[V01]`…`[V20]` in comments) | SAST, dependency scanning, secure coding |
 | `.env.production`, `id_deploy`, `src/config.js` | Fake leaked credentials | Secret scanning |
 | `Dockerfile`, `docker-compose.yml` | Insecure container setup (root user, fat image, secrets in ENV, privileged, docker.sock) | Image scanning, container hardening |
-| `infra/main.tf` | Insecure AWS EC2 definition | IaC scanning |
+| `infra/main.tf` | Insecure AWS EC2 definition (reference for cloud IaC concepts) | IaC scanning |
 | `.github/workflows/security.yml` | The pipeline: gitleaks, Semgrep, Trivy (deps + image), Checkov, Syft SBOM | CI security gates |
 | `.semgrep/custom-rules.yml` | Extra Semgrep rules (community rules miss several of these bugs) | Writing/tuning rules |
-| `server/harden.sh` | Ubuntu hardening: SSH, UFW, fail2ban, unattended-upgrades, sysctl | Server hardening on an EC2 box |
+| `server/harden.sh` | Ubuntu hardening: SSH, UFW, fail2ban, unattended-upgrades, sysctl | Server hardening on WSL Ubuntu |
 | `solutions/` | Hardened Dockerfile + compose + healthcheck | Check your work |
 | `FIXES.md` | Every flaw: where it is, which tool catches it, how to fix it | Answer key (try first!) |
 
@@ -58,26 +58,78 @@ Then work through the levels below. After each fix, re-run the matching command 
 3. **Code.** Fix the Semgrep ERRORs one at a time. For each, write a request that exploited it, confirm it works before the fix and fails after.
 4. **Gaps.** Some flaws no scanner here catches (IDOR, mass assignment, missing admin check, verbose errors). Find them by reading the code, then write a test that fails now and passes after your fix.
 5. **Container.** Rewrite the `Dockerfile` (multi-stage, non-root, minimal runtime image, HEALTHCHECK, no secrets in ENV/ARG, `.dockerignore`). Compare with `solutions/Dockerfile` afterwards.
-6. **IaC.** Fix `infra/main.tf` (SSH from your IP only, IMDSv2, encrypted disk, least-privilege role) until the Checkov gate passes.
+6. **IaC.** Review `infra/main.tf` for cloud security patterns (SSH restrictions, IMDSv2, encrypted disk, least-privilege role) until the Checkov gate passes. This serves as reference for when you deploy to cloud infrastructure.
 7. **Tuning.** Make the gate stricter (also block HIGH), then add an exception *with a reason and an expiry*. Write one new Semgrep rule for a bug of your own.
 8. **Server.** Next section.
 
-## Server hardening lab (AWS EC2)
+## Server hardening lab (WSL Ubuntu)
 
-1. Launch Ubuntu Server 24.04 (`t3.small` is comfortable), a key pair, and a security group allowing SSH from **your IP only**. Set an AWS Budget alert, and terminate the instance when you're done.
-2. `scp -i key.pem -r server ubuntu@<ip>:~` then SSH in. **Keep this session open.**
-3. Preview, apply, audit:
+### Prerequisites
+
+Ensure you have WSL 2 installed with Ubuntu 24.04:
+
+```bash
+# Check WSL version
+wsl --list --verbose
+
+# If needed, install Ubuntu 24.04
+wsl --install Ubuntu-24.04
+```
+
+### Hardening Steps
+
+1. **Access your WSL instance:**
    ```bash
-   sudo ./server/harden.sh plan      # shows every file it would write; changes nothing
-   sudo ./server/harden.sh apply
-   sudo ./server/harden.sh verify    # PASS/FAIL per control
+   wsl
+   sudo apt update && sudo apt upgrade -y
    ```
-4. **From a second terminal**, confirm you can still log in (`ssh -i key.pem ubuntu@<ip>`) before closing the first. Confirm `ssh -o PubkeyAuthentication=no ubuntu@<ip>` is refused.
-5. Experiments worth doing:
-   - Fail a login 5+ times from another machine, then `sudo fail2ban-client status sshd`.
-   - `sudo ufw status verbose`; then run `docker run -d -p 8080:80 nginx` and curl port 8080 from outside. **It's reachable even though ufw never allowed it.** Docker edits iptables directly and bypasses ufw. Fix it by binding to `127.0.0.1:8080:80`, and see why `solutions/docker-compose.yml` does that. Re-run `verify`.
-   - `sudo unattended-upgrade --dry-run -v` and read which origins it would pull from.
-   - Read `server/harden.sh`: why is the SSH drop-in named `00-…`? (First value wins; cloud images ship a `50-cloud-init.conf` that can re-enable passwords.)
+
+2. **Copy the hardening script:**
+   ```bash
+   # From Windows PowerShell/Command Prompt, copy the server directory to WSL
+   wsl cp -r server/ ~/
+   # Or if already in the repo directory in WSL, just:
+   sudo cp -r server ~/
+   ```
+
+3. **Preview, apply, audit:**
+   ```bash
+   sudo ~/server/harden.sh plan      # shows every file it would write; changes nothing
+   sudo ~/server/harden.sh apply
+   sudo ~/server/harden.sh verify    # PASS/FAIL per control
+   ```
+
+4. **Verify your setup:**
+   - Confirm WSL is still accessible after hardening
+   - Check that firewall rules are in place
+   - Verify fail2ban is running and configured
+
+5. **Experiments worth doing:**
+   - **Fail2ban:** Attempt multiple failed SSH logins (if you enabled SSH server), then check `sudo fail2ban-client status sshd`. Note: WSL typically doesn't run SSH server by default, but you can enable it for practice.
+   - **UFW vs Docker:** `sudo ufw status verbose`; then run `docker run -d -p 8080:80 nginx` and try to access port 8080 from Windows host. **It's reachable even though ufw never allowed it.** Docker edits iptables directly and bypasses ufw. Fix it by binding to `127.0.0.1:8080:80`, and see why `solutions/docker-compose.yml` does that. Re-run `verify`.
+   - **Unattended upgrades:** `sudo unattended-upgrade --dry-run -v` and read which origins it would pull from.
+   - **SSH configuration:** Read `server/harden.sh`: why is the SSH drop-in named `00-…`? (First value wins; cloud images ship a `50-cloud-init.conf` that can re-enable passwords.)
+
+### Optional: Enable SSH in WSL
+
+If you want to practice SSH hardening specifically:
+
+```bash
+# Install and enable SSH server
+sudo apt install openssh-server -y
+sudo systemctl enable ssh
+sudo systemctl start ssh
+
+# Configure SSH to allow key-based auth
+sudo nano /etc/ssh/sshd_config
+# Set: PasswordAuthentication no, PubkeyAuthentication yes
+
+# Add your Windows SSH public key to ~/.ssh/authorized_keys
+mkdir -p ~/.ssh
+echo "your-public-key-here" >> ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+```
 
 The script refuses to run if the admin user has no `authorized_keys`, validates `sshd -t` before reloading, and rolls back on failure. It is idempotent: run it twice and the second run reports everything "unchanged".
 
@@ -91,4 +143,4 @@ The script refuses to run if the admin user has no `authorized_keys`, validates 
 
 Tested here, for real: the app boots and the planted bugs are exploitable (SQLi login bypass, `eval`, reflected XSS, mass assignment); gitleaks, Semgrep (with the custom rules), Checkov, Syft, hadolint, shellcheck and actionlint were run and all four gates exit 1 on this repo; `harden.sh` was validated against a real OpenSSH 9.6 `sshd -t`, fail2ban's config test and apt's config parser, and is idempotent.
 
-**Not** tested here (the sandbox had no Docker and no access to Trivy's vulnerability DB or Semgrep's registry): the Trivy stages, the `p/…` Semgrep registry packs, `docker build`, and a real UFW/EC2 run. Expect to fix small things on your first CI run; that is part of the practice. The dependency numbers were checked with `npm audit` instead (20 vulnerable packages, 4 critical: `ejs`, `lodash`, `minimist`, `node-serialize`).
+**Not** tested here (the sandbox had no Docker and no access to Trivy's vulnerability DB or Semgrep's registry): the Trivy stages, the `p/…` Semgrep registry packs, `docker build`, and a real UFW/WSL run. Expect to fix small things on your first CI run; that is part of the practice. The dependency numbers were checked with `npm audit` instead (20 vulnerable packages, 4 critical: `ejs`, `lodash`, `minimist`, `node-serialize`).
